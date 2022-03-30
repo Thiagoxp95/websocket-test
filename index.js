@@ -25,8 +25,12 @@ io.on('connect', (socket) => {
   console.log("connectado");  
 
   setTimeout(() => {
-    socket.emit('message', {
-      message: 'Hello World'
+    socket.emit('1234', {
+      data: {
+        message: 'Hello World',
+        from: "VDR",
+        amout: 1233
+      }
     });
   });
 
