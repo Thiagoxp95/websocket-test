@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 const IO_CONFIG ={
   cors: {
-    origin:"http://localhost:3001",
+    origin:"http://localhost:3000",
     methods: "GET",
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
