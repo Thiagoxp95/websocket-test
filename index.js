@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 const IO_CONFIG ={
   cors: {
-    origin:"http://localhost:3000",
+    origin:"imaginative-daffodil-d2d771.netlify.app",
     methods: "GET",
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
