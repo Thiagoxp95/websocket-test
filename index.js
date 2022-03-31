@@ -1,39 +1,38 @@
-// Setup basic express server
+const path = require('path');
 const express = require('express');
 const app = express();
-const path = require('path');
 const server = require('http').createServer(app);
-const io = require('socket.io')(server, {
-  cors: {
-    origin:"http://localhost:3001",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: ["my-custom-header"],
-    credentials: true
-  }
-});
-const port = process.env.PORT || 3000;
 
-server.listen(port, () => {
-  console.log('Server listening at port %d', port );
-});
+var bodyParser = require('body-parser')
 
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')));
 
+const PORT = process.env.PORT || 3000;
 
-io.on('connect', (socket) => {
+const IO_CONFIG ={
+  cors: {
+    origin:"http://localhost:3001",
+    methods: "GET",
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+  } 
+}
+const io = require('socket.io')(server, IO_CONFIG);
 
-  console.log("connectado");  
+app.post('/v1/alerts', (req, res) => {
+  const {token,patron, message, amount} = req.body;
 
-  setTimeout(() => {
-    socket.emit('1234', {
-      data: {
-        message: 'Hello World',
-        from: "VDR",
-        amout: 1233
-      }
-    });
-  });
+  io.emit(token, { message, patron, amount});
 
+  res.status(200).send({message: 'success'});
 });
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
+
 
 
